@@ -1,3 +1,3 @@
 #!/bin/bash
-apt-get update
-apt-get -y install nginx
+yum update -y
+yum install htop -y
