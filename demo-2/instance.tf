@@ -7,7 +7,9 @@ resource "aws_instance" "example" {
   ami = "${lookup(var.AMIS, var.AWS_REGION)}"
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.SamolazovRoman.key_name}"
-
+  tags {
+    Name = "DevOps_box"
+  }
   provisioner "file" {
     source = "script.sh"
     destination = "/tmp/script.sh"
