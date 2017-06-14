@@ -1,6 +1,9 @@
 resource "aws_instance" "example" {
   ami           = "${lookup(var.AMIS, var.AWS_REGION)}"
   instance_type = "t2.micro"
+  tags {
+    Name = "DevOps_box"
+  }
 
   # the VPC subnet
   subnet_id = "${aws_subnet.main-public-1.id}"
@@ -9,7 +12,7 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = ["${aws_security_group.allow-ssh.id}"]
 
   # the public SSH key
-  key_name = "${aws_key_pair.mykeypair.key_name}"
+  key_name = "${aws_key_pair.SamolazovRoman.key_name}"
 
   # user data
   user_data = "${data.template_cloudinit_config.cloudinit-example.rendered}"
@@ -17,7 +20,7 @@ resource "aws_instance" "example" {
 }
 
 resource "aws_ebs_volume" "ebs-volume-1" {
-    availability_zone = "eu-west-1a"
+    availability_zone = "us-east-1a"
     size = 20
     type = "gp2" 
     tags {

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vgchange -ay
+sudo vgchange -ay
 
 DEVICE_FS=`blkid -o value -s TYPE ${DEVICE}`
 if [ "`echo -n $DEVICE_FS`" == "" ] ; then 

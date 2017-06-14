@@ -5,6 +5,9 @@ resource "aws_key_pair" "SamolazovRoman" {
 
 resource "aws_instance" "win-example" {
   ami = "${lookup(var.WIN_AMIS, var.AWS_REGION)}"
+  tags {
+    Name = "DevOps_box"
+  }
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.SamolazovRoman.key_name}"
   user_data = <<EOF
