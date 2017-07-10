@@ -1,6 +1,10 @@
 resource "aws_instance" "jenkins-instance" {
   ami           = "${lookup(var.AMIS, var.AWS_REGION)}"
   instance_type = "t2.small"
+  tags {
+    Name = "jenkins-instance"
+  }
+
 
   # the VPC subnet
   subnet_id = "${aws_subnet.main-public-1.id}"
@@ -9,7 +13,7 @@ resource "aws_instance" "jenkins-instance" {
   vpc_security_group_ids = ["${aws_security_group.jenkins-securitygroup.id}"]
 
   # the public SSH key
-  key_name = "${aws_key_pair.mykeypair.key_name}"
+  key_name = "${aws_key_pair.SamolazovRoman.key_name}"
 
   # user data
   user_data = "${data.template_cloudinit_config.cloudinit-jenkins.rendered}"
@@ -17,7 +21,7 @@ resource "aws_instance" "jenkins-instance" {
 }
 
 resource "aws_ebs_volume" "jenkins-data" {
-    availability_zone = "eu-west-1a"
+    availability_zone = "us-east-1a"
     size = 20
     type = "gp2" 
     tags {
@@ -35,6 +39,9 @@ resource "aws_instance" "app-instance" {
   count = "${var.APP_INSTANCE_COUNT}"
   ami = "${var.APP_INSTANCE_AMI}"
   instance_type = "t2.micro"
+  tags {
+    Name = "app-instance"
+  }
 
   # the VPC subnet
   subnet_id = "${aws_subnet.main-public-1.id}"
@@ -43,5 +50,5 @@ resource "aws_instance" "app-instance" {
   vpc_security_group_ids = ["${aws_security_group.app-securitygroup.id}"]
 
   # the public SSH key
-  key_name = "${aws_key_pair.mykeypair.key_name}"
+  key_name = "${aws_key_pair.SamolazovRoman.key_name}"
 }
